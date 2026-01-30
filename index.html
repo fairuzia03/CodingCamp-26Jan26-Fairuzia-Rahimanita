@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeNest Solutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/dist/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+   
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background: #fff; 
+            scroll-behavior: smooth;
+            cursor: default;
+        }
+       
+        /* PROTEKSI TOTAL: Mencegah teks bisa di-edit dan cursor text */
+        h1, h2, h3, p, .section-title, .company-name, .nav-link, li, ul {
+            user-select: none !important;
+            -webkit-user-select: none !important;
+            -moz-user-select: none !important;
+            -ms-user-select: none !important;
+            cursor: default !important;
+        }
+        
+        /* Khusus untuk link tetap pakai cursor pointer */
+        a, button {
+            cursor: pointer !important;
+        }
+        
+        /* Input dan textarea tetap normal */
+        input, textarea {
+            user-select: text !important;
+            cursor: text !important;
+        }
+       
+        .navbar {
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+       
+        .company-name {
+            font-size: 32px;
+            font-weight: 800;
+            font-style: italic;
+            color: #fff;
+            letter-spacing: -0.5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+       
+        .nav-container { display: flex; gap: 0; }
+       
+        .nav-link {
+            padding: 12px 30px;
+            text-decoration: none;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+            border: 2px solid #fff;
+            border-right: none;
+            transition: all 0.3s;
+        }
+       
+        .nav-link:first-child { border-radius: 8px 0 0 8px; }
+        .nav-link:last-child { border-right: 2px solid #fff; border-radius: 0 8px 8px 0; }
+        .nav-link:hover {
+            background: linear-gradient(135deg, #1d4ed8 0%, #6d28d9 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+       
+        .section { min-height: 80vh; display: flex; justify-content: center; align-items: center; padding: 80px 40px; }
+        .section-content { max-width: 1200px; width: 100%; text-align: center; }
+        .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+            -webkit-background-clip: text;
+            background-clip: text; /* Tambahkan baris ini */
+        -webkit-text-fill-color: transparent;
+            -webkit-text-fill-color: transparent;
+        }
+        section, .section { 
+            scroll-margin-top: 100px; 
+        }
+        .nav-link:active, button:active {
+            box-shadow: 0 0 20px #fff, 0 0 30px #7c3aed !important;
+            transform: scale(0.95);
+        }
+        .image-frame {
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease !important;
+            cursor: pointer !important;
+        }
+        .image-frame:hover {
+            transform: scale(1.05) translateY(-10px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4), 0 0 15px rgba(124, 58, 237, 0.3) !important;
+            border-color: #2563eb !important;
+        }
+        #home h2 {
+            font-family: 'Audiowide', sans-serif;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            text-align: center;
+        }  
+        .section-description { font-size: 1.2rem; color: #666; margin-top: 30px; line-height: 1.8; }
+        .section-divider {
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #2563eb 20%, #7c3aed 50%, #2563eb 80%, transparent);
+        }
+        .image-frame.rectangle {
+            width: 800px;
+            height: 500px;
+            max-width: 90%;
+            margin: 30px auto;
+            border: 3px solid #000;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+            background: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .image-frame.rectangle img { width: 100%; height: 100%; object-fit: cover; }
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-top: 50px;
+            padding: 0 20px;
+        }
+        .portfolio-item { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+        .image-frame.circle {
+            width: 250px;
+            height: 250px;
+            border: 3px solid #000;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+            background: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .image-frame.circle img { width: 100%; height: 100%; object-fit: cover; }
+        .portfolio-caption { font-size: 1.1rem; font-weight: 600; color: #333; }
+        @media (max-width: 1024px) { .portfolio-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) {
+            .navbar { flex-direction: column; gap: 20px; padding: 20px; }
+            .company-name { font-size: 26px; }
+            .nav-container { flex-direction: column; width: 100%; }
+            .nav-link { width: 100%; border: 2px solid #fff; border-bottom: none; border-radius: 0; }
+            .nav-link:first-child { border-radius: 8px 8px 0 0; }
+            .nav-link:last-child { border-bottom: 2px solid #fff; border-radius: 0 0 8px 8px; }
+            .section-title { font-size: 2rem; }
+            .portfolio-grid { grid-template-columns: 1fr; }
+            .image-frame.circle { width: 200px; height: 200px; }
+        }
+
+        .footer {
+    background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+    color: #fff;
+    padding: 60px 20px 20px 20px;
+    text-align: center;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.social-item {
+    /* Menggunakan div, bukan link, jadi tidak mengarah kemana-mana */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    cursor: default; /* Kursor tetap panah biasa */
+}
+
+.social-item i {
+    font-size: 24px;
+    background: rgba(255, 255, 255, 0.1);
+    width: 55px;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+/* Efek Pop-up dan Glow saat disentuh mouse */
+.social-item:hover {
+    transform: translateY(-8px);
+}
+
+.social-item:hover i {
+    background: #fff;
+    color: #7c3aed;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.6); /* Efek Cahaya/Glow */
+}
+
+.social-item span {
+    font-size: 0.85rem;
+    font-weight: 600;
+    opacity: 0.9;
+}
+
+body {
+    caret-color: transparent;
+}
+
+/* Input & textarea tetap normal */
+input, textarea {
+    caret-color: auto;
+}
+ 
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="company-name">CodeNest Solutions</div>
+        <div class="nav-container">
+            <a href="#home" class="nav-link">Home</a>
+            <a href="#profile" class="nav-link">Our Profile</a>
+            <a href="#portofolio" class="nav-link">Our Services</a>
+            <a href="#message" class="nav-link">Message Us</a>
+        </div>
+    </nav>
+    
+    <section id="home" class="section">
+        <div class="section-content">
+            <h1 class="section-title" style="margin-top: -22px;">Hello, Welcome To <i>CodeNest Solutions !</i></h1>
+            <h2 style="font-family: 'Audiowide', sans-serif; font-size: 30px; margin-top: -20px;">Custom Web & Software Solutions</h2>
+            <h3 style="font-family: 'Work Sans', sans-serif; font-weight: 400; font-style: italic;">
+            <i>CodeNest Solutions helps individuals and businesses build modern, efficient, and reliable digital products.
+                We focus on building reliable digital solutions through clean code and thoughtful design.</i>
+            </h3><br>
+            <p style="color: #040506; font-size: 1rem; margin-bottom: 30px;">
+            Click "Our Profile" to get an insight of our  work
+            </p>
+            <div class="image-frame rectangle">
+                <img src="images/Home.jpg" alt="Home Image">
+            </div>
+        </div>
+    </section>
+    
+    <div class="section-divider" style="margin-top: -20px;"></div>
+    
+    <section id="profile" class="section">
+        <div class="section-content">
+            <h1 class="section-title" style="margin-top: -19px; font-family: 'Poppins', sans-serif;">Our Profile</h1>
+            <h2 style="font-family: 'Audiowide', sans-serif; font-size: 26px; margin-top: -20px;">About Us</h2>
+            <p style="margin-top: 15px; font-family: 'Work Sans', sans-serif; font-weight: 400; line-height: 1.6; color: #0e0404; max-width: 800px; margin-left: auto; margin-right: auto;">
+                CodeNest Solutions is a student-driven software development team focusing on clean code, usability, and scalable solutions.
+            </p>
+            <div style="display: flex; justify-content: center; gap: 50px; margin-top: 50px; text-align: left; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 280px; max-width: 500px; padding: 40px; background: #f1f7fc; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                    <div style="font-size: 40px; margin-bottom: 10px;">👁️</div>
+                    <h3 style="font-family: 'Audiowide', sans-serif; color: #2563eb; font-size: 22px; margin-bottom: 10px;">Vision</h3>
+                    <p style="font-family: 'Work Sans', sans-serif; color: #090707; line-height: 1.8; font-size: 0.95rem;">
+                        <ul>
+                            <li style="padding-left: 20px;">To become a trusted technology partner for digital innovation and excellence, delivering value through creativity.</li>
+                        </ul>
+                    </p>
+                </div>
+                <div style="flex: 1; min-width: 280px; max-width: 500px; padding: 40px; background: #f1f7fc; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                    <div style="font-size: 40px; margin-bottom: 10px;">🎯</div>
+                    <h3 style="font-family: 'Audiowide', sans-serif; color: #7c3aed; font-size: 22px; margin-bottom: 10px;">Mission</h3>
+                    <p style="font-family: 'Work Sans', sans-serif; color:  #090707; line-height: 1.8; font-size: 0.95rem;">
+                        <ul>
+                            <li style="padding-left: 20px;">Delivering high-quality software solutions that empower businesses and enhance user experiences worldwide.</li>
+                            <li style="padding-left: 20px;">Build user-friendly applications</li>
+                            <li style="padding-left: 20px;">Continuously learn and improve</li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="section-divider"></div>
+    
+    <section id="portofolio" class="section">
+        <div class="section-content">
+            <h1 class="section-title" style="margin-top: -24px;">Our Services</h1>
+            <h2 style="font-family: 'Audiowide', sans-serif; font-size: 26px; margin-top: -20px;">
+                Delivering smart digital solutions for real-world needs.
+            </h2>
+            <p style="margin-top: 20px; font-family: 'Work Sans', sans-serif; font-weight: 400; line-height: 1.6; color: #090808; max-width: 900px; margin-left: auto; margin-right: auto;">
+                Here is our wide range of services for all of your digital needs.
+                From initial concept to final deployment, our team ensures every project is built with
+                precision and the latest technology standards.
+            </p>
+            <div class="portfolio-grid">
+                <div class="portfolio-item">
+                    <div class="image-frame circle"><img src="images/Web Dev.jpg" alt="Portfolio 1"></div>
+                    <p class="portfolio-caption">Website Development</p>
+                </div>
+                <div class="portfolio-item">
+                    <div class="image-frame circle"><img src="images/Web App.jpg" alt="Portfolio 2"></div>
+                    <p class="portfolio-caption">Web Application Development</p>
+                </div>
+                <div class="portfolio-item">
+                    <div class="image-frame circle"><img src="images/design.jpg" alt="Portfolio 3"></div>
+                    <p class="portfolio-caption">UI/UX Designs</p>
+                </div>
+                <div class="portfolio-item">
+                    <div class="image-frame circle"><img src="images/System Protoyping.jpg" alt="Portfolio 4"></div>
+                    <p class="portfolio-caption">System Prototyping</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+    
+    <section id="message" style="padding: 100px 20px; min-height: 80vh; display: flex; justify-content: center; align-items: center; background-color: #fff;">
+        <div class="section-content" style="max-width: 1100px; width: 100%; text-align: center;">
+            <h1 class="section-title" style="margin-bottom: 10px;">Message Us</h1>
+            <h2 style="font-family: 'Audiowide', sans-serif; font-size: 24px; color: #333; margin-bottom: 50px;">
+                Need our services ?  Then please fill in the form below to reach us out
+            </h2>
+
+            <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; text-align: left;">
+                <!-- FORM INPUT -->
+                <div style="flex: 1; min-width: 320px; padding: 40px; background-color: #f1f7fc; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                    <form id="messageForm">
+                        <table style="width: 100%; border-spacing: 0 15px; font-family: 'Poppins', sans-serif;">
+                            <tr>
+                                <td style="width: 150px; font-weight: 700; color: #2563eb;">Name</td>
+                                <td>: <input type="text" id="inputNama" style="width: 88%; padding: 10px; border: 1.5px solid #cbd5e1; border-radius: 8px; outline: none;"></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: 700; color: #2563eb;">Birth Day/Date/Year</td>
+                                <td>: <input type="date" id="inputTgl" style="width: 88%; padding: 10px; border: 1.5px solid #cbd5e1; border-radius: 8px; outline: none;"></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: 700; color: #2563eb;">Gender</td>
+                                <td>:
+                                    <label style="cursor: pointer;"><input type="radio" name="jk" value="Male"> Male</label>
+                                    <label style="cursor: pointer; margin-left: 10px;"><input type="radio" name="jk" value="Female"> Female</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: 700; color: #2563eb;">Email</td>
+                                <td>: <input type="email" id="inputEmail" style="width: 88%; padding: 10px; border: 1.5px solid #cbd5e1; border-radius: 8px; outline: none;"></td>
+                            </tr>
+                            <tr>
+                                <td style="vertical-align: top; padding-top: 10px; font-weight: 700; color: #2563eb;">Message</td>
+                                <td>: <textarea id="inputPesan" rows="4" style="width: 88%; padding: 10px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-family: sans-serif; resize: none; outline: none;"></textarea></td>
+                            </tr>
+                        </table>
+                        <button type="button" onclick="handleFormSubmit()" style="width: 96%; padding: 12px; margin-top: 15px; background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%); color: white; border: none; font-weight: bold; cursor: pointer; border-radius: 8px; transition: 0.3s; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);">
+                            Submit Message
+                        </button>
+                    </form>
+                </div>
+
+                <!-- DISPLAY AREA -->
+                <div style="flex: 1; min-width: 320px; padding: 40px; background-color: #f1f7fc; border-radius: 20px; border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: center;">
+                    <div style="font-family: 'Poppins', sans-serif; font-size: 1rem; color: #333;">
+                        <div style="display: flex; margin-bottom: 15px; border-bottom: 1px solid #cbd5e1; padding-bottom: 5px;">
+                            <span style="font-weight: 800; width: 140px; color: #1e293b;">Name</span>
+                            <span style="flex: 1;">: <span id="resNama" style="color: #475569;">-</span></span>
+                        </div>
+                        <div style="display: flex; margin-bottom: 15px; border-bottom: 1px solid #cbd5e1; padding-bottom: 5px;">
+                            <span style="font-weight: 800; width: 140px; color: #1e293b;">Day/Date/Year</span>
+                            <span style="flex: 1;">: <span id="resTgl" style="color: #475569;">-</span></span>
+                        </div>
+                        <div style="display: flex; margin-bottom: 15px; border-bottom: 1px solid #cbd5e1; padding-bottom: 5px;">
+                            <span style="font-weight: 800; width: 140px; color: #1e293b;">Gender</span>
+                            <span style="flex: 1;">: <span id="resJK" style="color: #475569;">-</span></span>
+                        </div>
+                        <div style="display: flex; margin-bottom: 15px; border-bottom: 1px solid #cbd5e1; padding-bottom: 5px;">
+                            <span style="font-weight: 800; width: 140px; color: #1e293b;">Email</span>
+                            <span style="flex: 1;">: <span id="resEmail" style="color: #475569;">-</span></span>
+                        </div>
+                        <div style="display: flex;">
+                            <span style="font-weight: 800; width: 140px; color: #1e293b;">Message</span>
+                            <span style="flex: 1;">: <span id="resPesan" style="color: #475569;">-</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <section id="testimonials" class="section" style="background-color: #fff;">
+        <div class="section-content">
+            <h1 class="section-title">What our Clients say!</h1>
+            <div class="section-divider" style="width: 100px; margin: -20px auto 40px auto; height: 4px; border-radius: 2px;"></div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 20px;">
+                
+                <div style="background: #f1f7fc; padding: 40px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); position: relative; transition: 0.3s;">
+                    <div style="font-size: 50px; color: #cbd5e1; position: absolute; top: 10px; left: 20px; font-family: serif; opacity: 0.5;">“</div>
+                    <p style="font-style: italic; color: #475569; line-height: 1.8; margin-bottom: 20px; position: relative; z-index: 1;">
+                        By far the best thing about this is the efficient team they've put together. Everyone is so knowledgeable and friendly.
+                    </p>
+                    <div style="margin-bottom: 10px; font-size: 1.1rem;">
+                    ⭐⭐⭐⭐⭐
+                    </div>
+                    <h4 style="color: #2563eb; font-weight: 800; font-size: 1.1rem;">— Cian Reyes</h4>
+                </div>
+
+                <div style="background: #f1f7fc; padding: 40px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); position: relative; transition: 0.3s;">
+                    <div style="font-size: 50px; color: #cbd5e1; position: absolute; top: 10px; left: 20px; font-family: serif; opacity: 0.5;">“</div>
+                    <p style="font-style: italic; color: #475569; line-height: 1.8; margin-bottom: 20px; position: relative; z-index: 1;">
+                        Just wow. I knew I was going to get a great service, but they went above and beyond my expectations.
+                    </p>
+                    <div style="margin-bottom: 10px; font-size: 1.1rem;">
+                    ⭐⭐⭐⭐
+                    </div>
+                    <h4 style="color: #7c3aed; font-weight: 800; font-size: 1.1rem;">— John Doe</h4>
+                </div>
+
+                <div style="background: #f1f7fc; padding: 40px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); position: relative; transition: 0.3s;">
+                    <div style="font-size: 50px; color: #cbd5e1; position: absolute; top: 10px; left: 20px; font-family: serif; opacity: 0.5;">“</div>
+                    <p style="font-style: italic; color: #475569; line-height: 1.8; margin-bottom: 20px; position: relative; z-index: 1;">
+                        This is the best thing that happened to my small business. They re-branded, re-organized, and re-vamped my company in no time.
+                    </p>
+                    <div style="margin-bottom: 10px; font-size: 1.1rem;">
+                    ⭐⭐⭐⭐⭐
+                    </div>
+                    <h4 style="color: #2563eb; font-weight: 800; font-size: 1.1rem;">— Asa Walter</h4>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    
+    <script>
+        function handleFormSubmit() {
+            const nama = document.getElementById('inputNama')?.value || "";
+            const email = document.getElementById('inputEmail')?.value || "";
+            const tgl = document.getElementById('inputTgl')?.value || "";
+            const pesan = document.getElementById('inputPesan')?.value || "";
+            const jk = document.querySelector('input[name="jk"]:checked')?.value || "-";
+
+            if (!nama || nama.trim() === "") {
+                alert("Mohon isi nama Anda terlebih dahulu.");
+                return;
+            }
+
+            // Update tampilan
+            document.getElementById('resNama').innerText = nama;
+            document.getElementById('resEmail').innerText = email || "-";
+            document.getElementById('resTgl').innerText = tgl || "-";
+            document.getElementById('resJK').innerText = jk;
+            document.getElementById('resPesan').innerText = pesan || "-";
+
+            alert("Thank you " + nama + " for filling in the form! We will connect with you soon.");
+        }
+    </script>
+
+    <footer class="footer">
+    <div class="footer-content">
+        <div class="footer-logo">CodeNest Solutions</div>
+        <p style="margin-bottom: 30px; opacity: 0.9;">Follow us on our social media for more updates</p>
+        
+        <div class="social-links">
+            <div class="social-item">
+                <i class="fab fa-instagram"></i>
+                <span>@CodeNest Solutions</span>
+            </div>
+            <div class="social-item">
+                <i class="fab fa-facebook-f"></i>
+                <span>CodeNest Solutions</span>
+            </div>
+            <div class="social-item">
+                <i class="fab fa-tiktok"></i>
+                <span>@CodeNest Solutions</span>
+            </div>
+            <div class="social-item">
+                <i class="fab fa-linkedin-in"></i>
+                <span>CodeNest Solutions</span>
+            </div>
+        </div>
+
+        <div class="copyright" style="margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2); font-size: 0.9rem; opacity: 0.7;">
+            &copy; 2026 CodeNest Solutions. All rights reserved.
+        </div>
+    </div>
+</footer>
+</body>
+</html>
